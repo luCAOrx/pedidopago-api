@@ -15,7 +15,7 @@ import {
   createSubsidiary, 
   deleteSubsidiary, 
   getAllSubsidiarys, 
-  getSubsidiaryByNameAndCNPJ,
+  getSubsidiaryByName,
   updateSubsidiaryData
 } from "./controllers/SubsidiaryController";
 
@@ -35,11 +35,11 @@ routes.delete('/deletePharmacy/:id', deletePharmacy);
 
 routes.post('/createSubsidiary/:farmacia_id', upload.single('logo'), createSubsidiary);
 
-routes.get('/getSubsidiaryByNameAndCNPJ', getSubsidiaryByNameAndCNPJ);
+routes.get('/getSubsidiaryByName', getSubsidiaryByName);
 
 routes.get('/getAllSubsidiarys', getAllSubsidiarys);
 
-routes.put('/updateSubsidiaryData/:id', updateSubsidiaryData);
+routes.put('/updateSubsidiaryData/:id', upload.single('logo'), updateSubsidiaryData);
 
 routes.delete('/deleteSubsidiary/:id', deleteSubsidiary);
 
