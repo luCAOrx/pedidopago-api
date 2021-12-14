@@ -17,9 +17,9 @@ const pharmacyClient = new pharmacy.PharmacyService(
   credentials.createInsecure()
 );
 
-const SubsidiaryClient = new pharmacy.SubsidiaryService(
+const subsidiaryClient = new pharmacy.SubsidiaryService(
   'localhost:50051',
   credentials.createInsecure()
 );
 
-export { pharmacyClient, SubsidiaryClient };
+export { pharmacyClient, subsidiaryClient };
