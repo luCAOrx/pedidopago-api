@@ -7,7 +7,7 @@ import {
   createPharmacy, 
   deletePharmacy, 
   getAllPharmacys, 
-  getPharmacyByNameAndCNPJ, 
+  getPharmacyByName, 
   updatePharmacyData
 } from './controllers/PharmacyController';
 
@@ -25,7 +25,7 @@ const upload = multer(multerConfig);
 
 routes.post('/createPharmacy', upload.single('logo'), createPharmacy);
 
-routes.get('/getPharmacyByNameAndCNPJ', getPharmacyByNameAndCNPJ);
+routes.get('/getPharmacyByName', getPharmacyByName);
 
 routes.get('/getAllPharmacys', getAllPharmacys);
 
