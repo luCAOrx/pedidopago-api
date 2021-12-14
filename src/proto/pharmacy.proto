@@ -42,9 +42,9 @@ message CreatePharmacyRequest {
   Pharmacy pharmacy = 1;
 }
 
-message GetPharmacyByNameAndCNPJRequest {
+message GetPharmacyByNameRequest {
   string nome = 1;
-  string cnpj = 2;
+  string page = 2;
 }
 
 message GetPharmacyByIdRequest {
@@ -93,7 +93,7 @@ message SubsidiarysListResponse {
 
 service PharmacyService {
   rpc createPharmacy(CreatePharmacyRequest) returns (PharmacyResponse) {};
-  rpc getPharmacyByNameAndCNPJ(GetPharmacyByNameAndCNPJRequest) returns (PharmacyResponse) {};
+  rpc getPharmacyByName(GetPharmacyByNameRequest) returns (PharmacysListResponse) {};
   rpc getAllPharmacys(Empty) returns (PharmacysListResponse) {};
   rpc updatePharmacyData(UpdatePharmacyDataRequest) returns (PharmacyResponse) {};
   rpc deletePharmacy(GetPharmacyByIdRequest) returns (Empty) {};
