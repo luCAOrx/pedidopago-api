@@ -45,11 +45,11 @@ export async function createPharmacy(request: Request, response: Response) {
   return response.status(201).json(pharmacyResponse);
 };
 
-export async function getPharmacyByNameAndCNPJ(request: Request, response: Response) {
-  const { nome, cnpj } = request.query;
+export async function getPharmacyByName(request: Request, response: Response) {
+  const { nome, page } = request.query;
 
   const pharmacyResponse = await new Promise((resolve, reject) => {
-    pharmacyClient.getPharmacyByNameAndCNPJ({ nome, cnpj }, (error: any, data: any) => {
+    pharmacyClient.getPharmacyByName({ nome, page }, (error: any, data: any) => {
       if (error) {
         reject(error);
       } else {
