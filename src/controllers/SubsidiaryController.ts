@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { SubsidiaryClient } from "../services/PharmacyService";
+import { subsidiaryClient } from "../services/PharmacyService";
 
 import { promisify } from 'util';
 import fileSystem from 'fs';
@@ -22,7 +22,7 @@ export async function createSubsidiary(request: Request, response: Response) {
   const { filename: logo } = request.file as Express.Multer.File;
 
   const SubsidiaryResponse = await new Promise((resolve, reject) => {
-    SubsidiaryClient.createSubsidiary({subsidiary: {
+    subsidiaryClient.createSubsidiary({subsidiary: {
       logo,
       nome,
       cnpj,
@@ -48,11 +48,25 @@ export async function createSubsidiary(request: Request, response: Response) {
   return response.status(201).json(SubsidiaryResponse);
 }
 
-export async function getSubsidiaryByNameAndCNPJ(request: Request, response: Response) {
-  const { nome, cnpj } = request.query;
+export async function getSubsidiaryByName(request: Request, response: Response) {
+  const { nome } = request.query;
 
+  const subsidiarys = await new Promise((resolve, reject) => {
+    subsidiaryClient.getSubsidiaryByName({ nome }, (error: any, data: any) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+
+  return response.status(200).json(subsidiarys); 
+};
+
+export async function getAllSubsidiarys(request: Request, response: Response) {
   const subsidiaryResponse = await new Promise((resolve, reject) => {
-    SubsidiaryClient.getSubsidiaryByNameAndCNPJ({ nome, cnpj }, (error: any, data: any) => {
+    subsidiaryClient.getAllSubsidiarys({}, (error: any, data: any) => {
       if (error) {
         reject(error);
       } else {
@@ -64,26 +78,11 @@ export async function getSubsidiaryByNameAndCNPJ(request: Request, response: Res
   return response.status(200).json(subsidiaryResponse); 
 };
 
-export async function getAllSubsidiarys(request: Request, response: Response) {
-  const pharmacyResponse = await new Promise((resolve, reject) => {
-    SubsidiaryClient.getAllSubsidiarys({}, (error: any, data: any) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-
-  return response.status(200).json(pharmacyResponse); 
-};
-
 export async function updateSubsidiaryData(request: Request, response: Response) {
   const { id } = request.params;
 
   const {
     nome,
-    cnpj,
     endereco,
     horarioDeFuncionamento,
     responsavel,
@@ -91,20 +90,19 @@ export async function updateSubsidiaryData(request: Request, response: Response)
     outros,
   } = request.body;
 
-  const logo = request.file?.filename;
+  const { filename: logo } = request.file as Express.Multer.File;
 
   const subsidiaryResponse = await new Promise((resolve, reject) => {
-    SubsidiaryClient.updateSubsidiaryData({
+    subsidiaryClient.updateSubsidiaryData({subsidiary: {
       id,
       logo,
       nome,
-      cnpj,
       endereco,
       horarioDeFuncionamento,
       responsavel,
       telefone,
       outros,
-    }, (error: any, data: any) => {
+    }}, (error: any, data: any) => {
       if (error) {
         promisify(fileSystem.unlink)(path.resolve(
           __dirname, '..', '..', `uploads/${logo}`,
@@ -118,13 +116,13 @@ export async function updateSubsidiaryData(request: Request, response: Response)
   });
 
   return response.status(201).json(subsidiaryResponse);
-}
+};
 
 export async function deleteSubsidiary(request: Request, response: Response) {
   const { id } = request.params;
 
   await new Promise((resolve, reject) => {
-    SubsidiaryClient.deleteSubsidiary({id}, (error: any, data: any) => {
+    subsidiaryClient.deleteSubsidiary({id}, (error: any, data: any) => {
       if (error) {
         return response.status(400).json({ error: error.details });
       } else {
