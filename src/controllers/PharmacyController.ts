@@ -80,7 +80,6 @@ export async function updatePharmacyData(request: Request, response: Response) {
 
   const {
     nome,
-    cnpj,
     endereco,
     horarioDeFuncionamento,
     responsavel,
@@ -91,17 +90,16 @@ export async function updatePharmacyData(request: Request, response: Response) {
   const { filename: logo } = request.file as Express.Multer.File;
 
   const pharmacyResponse = await new Promise((resolve, reject) => {
-    pharmacyClient.updatePharmacyData({
+    pharmacyClient.updatePharmacyData({pharmacy: {
       id,
       logo,
       nome,
-      cnpj,
       endereco,
       horarioDeFuncionamento,
       responsavel,
       telefone,
       outros,
-    }, (error: any, data: any) => {
+    }}, (error: any, data: any) => {
       if (error) {
         promisify(fileSystem.unlink)(path.resolve(
           __dirname, '..', '..', `uploads/${logo}`,
@@ -109,8 +107,6 @@ export async function updatePharmacyData(request: Request, response: Response) {
     
         return response.status(400).json({ error: error.details });
       } else {
-        console.log(data);
-        
         resolve(data);
       }
     });
