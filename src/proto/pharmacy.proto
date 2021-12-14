@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package pharmacy;
+
+message Pharmacy {
+  int32 id = 1;
+  string logo = 2;
+  string nome = 3;
+  string cnpj = 4;
+  string endereco = 5;
+  string horarioDeFuncionamento = 6;
+  string responsavel = 7;
+  string telefone = 8;
+  string outros = 9;
+}
+
+message Subsidiary {
+  int32 id = 1;
+  string logo = 2;
+  string nome = 3;
+  string cnpj = 4;
+  string endereco = 5;
+  string horarioDeFuncionamento = 6;
+  string responsavel = 7;
+  string telefone = 8;
+  string outros = 9;
+  int32 farmacia_id = 10;
+}
+
+message CreatePharmacyRequest {
+  Pharmacy pharmacy = 1;
+}
+
+message GetPharmacyByNameAndCNPJRequest {
+  string nome = 1;
+  string cnpj = 2;
+}
+
+message GetPharmacyByIdRequest {
+  int32 id = 1;
+}
+
+message CreateSubsidiaryRequest {
+  Subsidiary subsidiary = 1;
+}
+
+message GetSubsidiaryByNameAndCNPJRequest {
+  string nome = 1;
+  string cnpj = 2;
+}
+
+message GetSubsidiaryByIdRequest {
+  int32 id = 1;
+}
+
+message Empty {}
+
+message PharmacyResponse {
+  Pharmacy pharmacy = 1;
+}
+
+message PharmacysListResponse {
+  repeated Pharmacy pharmacys = 1;
+}
+
+message SubsidiaryResponse {
+  Subsidiary subsidiary = 1;
+}
+
+message SubsidiarysListResponse {
+  repeated Subsidiary subsidiarys = 1;
+}
+
+service PharmacyService {
+  rpc createPharmacy(CreatePharmacyRequest) returns (PharmacyResponse) {};
+  rpc getPharmacyByNameAndCNPJ(GetPharmacyByNameAndCNPJRequest) returns (PharmacyResponse) {};
+  rpc getAllPharmacys(Empty) returns (PharmacysListResponse) {};
+  rpc updatePharmacyData(GetPharmacyByIdRequest) returns (PharmacyResponse) {};
+  rpc deletePharmacy(GetPharmacyByIdRequest) returns (Empty) {};
+}
+
+service SubsidiaryService {
+  rpc createSubsidiary(CreateSubsidiaryRequest) returns (SubsidiaryResponse) {};
+  rpc getSubsidiaryByNameAndCNPJ(GetSubsidiaryByNameAndCNPJRequest) returns (SubsidiaryResponse) {};
+  rpc getAllSubsidiarys(Empty) returns (SubsidiarysListResponse) {};
+  rpc updateSubsidiaryData(GetSubsidiaryByIdRequest) returns (SubsidiaryResponse) {};
+  rpc deleteSubsidiary(GetSubsidiaryByIdRequest) returns (Empty) {};
+}
