@@ -25,19 +25,6 @@ message UpdatePharmacyData {
   string outros = 8;
 }
 
-message Subsidiary {
-  int32 id = 1;
-  string logo = 2;
-  string nome = 3;
-  string cnpj = 4;
-  string endereco = 5;
-  string horarioDeFuncionamento = 6;
-  string responsavel = 7;
-  string telefone = 8;
-  string outros = 9;
-  int32 farmacia_id = 10;
-}
-
 message CreatePharmacyRequest {
   Pharmacy pharmacy = 1;
 }
@@ -56,31 +43,53 @@ message UpdatePharmacyDataRequest {
   UpdatePharmacyData pharmacy = 2;
 }
 
+message PharmacyResponse {
+  Pharmacy pharmacy = 1;
+}
+
+message PharmacysListResponse {
+  repeated Pharmacy pharmacys = 1;
+}
+
+message Subsidiary {
+  int32 id = 1;
+  string logo = 2;
+  string nome = 3;
+  string cnpj = 4;
+  string endereco = 5;
+  string horarioDeFuncionamento = 6;
+  string responsavel = 7;
+  string telefone = 8;
+  string outros = 9;
+  int32 farmacia_id = 10;
+}
+
+message UpdateSubsidiaryData {
+  int32 id = 1;
+  string logo = 2;
+  string nome = 3;
+  string endereco = 4;
+  string horarioDeFuncionamento = 5;
+  string responsavel = 6;
+  string telefone = 7;
+  string outros = 8;
+}
+
 message CreateSubsidiaryRequest {
   Subsidiary subsidiary = 1;
 }
 
-message GetSubsidiaryByNameAndCNPJRequest {
+message GetSubsidiaryByNameRequest {
   string nome = 1;
-  string cnpj = 2;
 }
 
 message GetSubsidiaryByIdRequest {
   int32 id = 1;
 }
 
-message Empty {}
-
-message PharmacyResponse {
-  Pharmacy pharmacy = 1;
-}
-
-message UpdatePharmacyDataResponse {
-  UpdatePharmacyDataRequest pharmacy = 1;
-}
-
-message PharmacysListResponse {
-  repeated Pharmacy pharmacys = 1;
+message UpdateSubsidiaryDataRequest {
+  int32 id = 1;
+  UpdateSubsidiaryData subsidiary = 2;
 }
 
 message SubsidiaryResponse {
@@ -90,6 +99,8 @@ message SubsidiaryResponse {
 message SubsidiarysListResponse {
   repeated Subsidiary subsidiarys = 1;
 }
+
+message Empty {}
 
 service PharmacyService {
   rpc createPharmacy(CreatePharmacyRequest) returns (PharmacyResponse) {};
@@ -101,8 +112,8 @@ service PharmacyService {
 
 service SubsidiaryService {
   rpc createSubsidiary(CreateSubsidiaryRequest) returns (SubsidiaryResponse) {};
-  rpc getSubsidiaryByNameAndCNPJ(GetSubsidiaryByNameAndCNPJRequest) returns (SubsidiaryResponse) {};
+  rpc getSubsidiaryByName(GetSubsidiaryByNameRequest) returns (SubsidiarysListResponse) {};
   rpc getAllSubsidiarys(Empty) returns (SubsidiarysListResponse) {};
-  rpc updateSubsidiaryData(GetSubsidiaryByIdRequest) returns (SubsidiaryResponse) {};
+  rpc updateSubsidiaryData(UpdateSubsidiaryDataRequest) returns (SubsidiaryResponse) {};
   rpc deleteSubsidiary(GetSubsidiaryByIdRequest) returns (Empty) {};
 }
