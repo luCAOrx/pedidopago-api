@@ -34,6 +34,10 @@ message GetPharmacyByNameRequest {
   string page = 2;
 }
 
+message GetAllPharmacysRequest {
+  string page = 1;
+}
+
 message GetPharmacyByIdRequest {
   int32 id = 1;
 }
@@ -110,7 +114,7 @@ message Empty {}
 service PharmacyService {
   rpc createPharmacy(CreatePharmacyRequest) returns (PharmacyResponse) {};
   rpc getPharmacyByName(GetPharmacyByNameRequest) returns (PharmacysListResponse) {};
-  rpc getAllPharmacys(Empty) returns (PharmacysListResponse) {};
+  rpc getAllPharmacys(GetAllPharmacysRequest) returns (PharmacysListResponse) {};
   rpc updatePharmacyData(UpdatePharmacyDataRequest) returns (PharmacyResponse) {};
   rpc deletePharmacy(GetPharmacyByIdRequest) returns (Empty) {};
 }

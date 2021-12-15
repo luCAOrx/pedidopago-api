@@ -62,8 +62,10 @@ export async function getPharmacyByName(request: Request, response: Response) {
 };
 
 export async function getAllPharmacys(request: Request, response: Response) {
+  const { page } = request.query;
+
   const pharmacyResponse = await new Promise((resolve, reject) => {
-    pharmacyClient.getAllPharmacys({}, (error: any, data: any) => {
+    pharmacyClient.getAllPharmacys({ page }, (error: any, data: any) => {
       if (error) {
         reject(error);
       } else {
