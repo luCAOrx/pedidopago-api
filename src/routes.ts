@@ -3,6 +3,8 @@ import multer from "multer";
 
 import { multerConfig } from './config/multer';
 
+import { productMulterConfig } from './config/productMulter';
+
 import { 
   createPharmacy, 
   deletePharmacy, 
@@ -19,9 +21,20 @@ import {
   updateSubsidiaryData
 } from "./controllers/SubsidiaryController";
 
+import { 
+  cloneProduct, 
+  createProduct,
+  deleteProduct,
+  getAllProducts,
+  getProductsByName,
+  updateProductData
+} from "./controllers/ProductController";
+
 const routes = Router();
 
 const upload = multer(multerConfig);
+
+const productUpload = multer(productMulterConfig);
 
 routes.post('/createPharmacy', upload.single('logo'), createPharmacy);
 
@@ -42,5 +55,17 @@ routes.get('/getAllSubsidiarys', getAllSubsidiarys);
 routes.put('/updateSubsidiaryData/:id', upload.single('logo'), updateSubsidiaryData);
 
 routes.delete('/deleteSubsidiary/:id', deleteSubsidiary);
+
+routes.post('/createProduct', productUpload.single('thumbnail'), createProduct)
+
+routes.post('/cloneProduct/:id', cloneProduct);
+
+routes.get('/getProductsByName', getProductsByName);
+
+routes.get('/getAllProducts', getAllProducts);
+
+routes.put('/updateProductData/:id', productUpload.single('thumbnail'), updateProductData);
+
+routes.delete('/deleteProduct/:id', deleteProduct);
 
 export { routes };
