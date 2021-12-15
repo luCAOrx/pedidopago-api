@@ -1,7 +1,7 @@
 {
-  "name": "pedidopago-microservice-products",
+  "name": "pedidopago-api",
   "version": "1.0.0",
-  "description": "micro serviço para produtos",
+  "description": "Api para o desafio da pedidopago",
   "main": "index.js",
   "author": "luCAOrx",
   "license": "MIT",
