@@ -84,6 +84,10 @@ message GetSubsidiaryByNameRequest {
   string page = 2;
 }
 
+message GetAllSubsidiarysRequest {
+  string page = 1;
+}
+
 message GetSubsidiaryByIdRequest {
   int32 id = 1;
 }
@@ -114,7 +118,7 @@ service PharmacyService {
 service SubsidiaryService {
   rpc createSubsidiary(CreateSubsidiaryRequest) returns (SubsidiaryResponse) {};
   rpc getSubsidiaryByName(GetSubsidiaryByNameRequest) returns (SubsidiarysListResponse) {};
-  rpc getAllSubsidiarys(Empty) returns (SubsidiarysListResponse) {};
+  rpc getAllSubsidiarys(GetAllSubsidiarysRequest) returns (SubsidiarysListResponse) {};
   rpc updateSubsidiaryData(UpdateSubsidiaryDataRequest) returns (SubsidiaryResponse) {};
   rpc deleteSubsidiary(GetSubsidiaryByIdRequest) returns (Empty) {};
 }

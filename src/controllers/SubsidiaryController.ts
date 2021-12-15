@@ -65,8 +65,10 @@ export async function getSubsidiaryByName(request: Request, response: Response) 
 };
 
 export async function getAllSubsidiarys(request: Request, response: Response) {
+  const { page } = request.query;
+
   const subsidiaryResponse = await new Promise((resolve, reject) => {
-    subsidiaryClient.getAllSubsidiarys({}, (error: any, data: any) => {
+    subsidiaryClient.getAllSubsidiarys({ page }, (error: any, data: any) => {
       if (error) {
         reject(error);
       } else {
