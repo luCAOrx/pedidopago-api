@@ -49,10 +49,10 @@ export async function createSubsidiary(request: Request, response: Response) {
 }
 
 export async function getSubsidiaryByName(request: Request, response: Response) {
-  const { nome } = request.query;
+  const { nome, page } = request.query;
 
   const subsidiarys = await new Promise((resolve, reject) => {
-    subsidiaryClient.getSubsidiaryByName({ nome }, (error: any, data: any) => {
+    subsidiaryClient.getSubsidiaryByName({ nome, page }, (error: any, data: any) => {
       if (error) {
         reject(error);
       } else {

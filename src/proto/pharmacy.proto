@@ -81,6 +81,7 @@ message CreateSubsidiaryRequest {
 
 message GetSubsidiaryByNameRequest {
   string nome = 1;
+  string page = 2;
 }
 
 message GetSubsidiaryByIdRequest {
