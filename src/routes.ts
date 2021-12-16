@@ -3,7 +3,7 @@ import multer from "multer";
 
 import { multerConfig } from './config/multer';
 
-import { productMulterConfig } from './config/productMulter';
+import productMulterConfig from './config/productMulter';
 
 import { 
   createPharmacy, 
