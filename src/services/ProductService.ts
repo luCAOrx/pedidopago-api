@@ -13,7 +13,7 @@ const packageDefinition = loadSync(productPath, config);
 const { product } = loadPackageDefinition(packageDefinition) as any;
 
 const productClient = new product.ProductService(
-  'localhost:50052',
+  String(process.env.GRPC_PRODUCTS_SERVER_URL),
   credentials.createInsecure()
 );
 
