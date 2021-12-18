@@ -1,14 +1,6 @@
 import { Request, Response } from "express";
 
-import aws from 'aws-sdk';
-
-import fileSystem from 'fs';
-import path from 'path';
-import { promisify } from 'util';
-
 import { productClient } from "../services/ProductService";
-
-const s3 = new aws.S3();
 
 export async function createProduct(request: Request, response: Response) {
   const {
@@ -33,14 +25,6 @@ export async function createProduct(request: Request, response: Response) {
       outros
     }}, (error: any, data: any) => {
       if (error) {
-        promisify(fileSystem.unlink)(path.resolve(
-          __dirname, '..', '..', '..', '..', 'api', 'uploads', `product/${thumbnail}`,
-        ));
-
-        s3.deleteObject({
-          Bucket: String(process.env.AWS_BUCKET_NAME),
-          Key: thumbnail,
-        }).promise();
         reject(error);
       } else {
         resolve(data);
@@ -48,7 +32,7 @@ export async function createProduct(request: Request, response: Response) {
     });
   });
 
-  return response.status(201).json({productResponse});
+  return response.status(201).json(productResponse);
 };
 
 export async function cloneProduct(request: Request, response: Response) {
@@ -125,15 +109,6 @@ export async function updateProductData(request: Request, response: Response) {
       outros
     }}, (error: any, data: any) => {
       if (error) {
-        promisify(fileSystem.unlink)(path.resolve(
-          __dirname, '..', '..', '..', '..', 'api', 'uploads', `product/${thumbnail}`,
-        ));
-
-        s3.deleteObject({
-          Bucket: String(process.env.AWS_BUCKET_NAME),
-          Key: thumbnail,
-        }).promise();
-        
         reject(error);
       } else {
         resolve(data);
