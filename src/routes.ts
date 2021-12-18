@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 
-import { multerConfig } from './config/multer';
+import { subsidiaryMulterConfig } from './config/subsidiaryMulter';
 
 import { pharmacyMulterConfig } from './config/pharmacyMulter';
 
@@ -34,9 +34,9 @@ import {
 
 const routes = Router();
 
-const upload = multer(multerConfig);
-
 const pharmacyUpload = multer(pharmacyMulterConfig);
+
+const subsidiaryUpload = multer(subsidiaryMulterConfig);
 
 const productUpload = multer(productMulterConfig);
 
@@ -50,13 +50,13 @@ routes.put('/updatePharmacyData/:id', pharmacyUpload.single('logo'), updatePharm
 
 routes.delete('/deletePharmacy/:id', deletePharmacy);
 
-routes.post('/createSubsidiary/:farmacia_id', upload.single('logo'), createSubsidiary);
+routes.post('/createSubsidiary/:farmacia_id', subsidiaryUpload.single('logo'), createSubsidiary);
 
 routes.get('/getSubsidiaryByName', getSubsidiaryByName);
 
 routes.get('/getAllSubsidiarys', getAllSubsidiarys);
 
-routes.put('/updateSubsidiaryData/:id', upload.single('logo'), updateSubsidiaryData);
+routes.put('/updateSubsidiaryData/:id', subsidiaryUpload.single('logo'), updateSubsidiaryData);
 
 routes.delete('/deleteSubsidiary/:id', deleteSubsidiary);
 
