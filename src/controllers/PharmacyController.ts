@@ -2,10 +2,6 @@ import { Request, Response } from 'express';
 
 import { pharmacyClient } from '../services/PharmacyService';
 
-import { promisify } from 'util';
-import fileSystem from 'fs';
-import path from 'path';
-
 export async function createPharmacy(request: Request, response: Response) {
   const {
     nome,
@@ -17,7 +13,7 @@ export async function createPharmacy(request: Request, response: Response) {
     outros,
   } = request.body;
 
-  const { filename: logo } = request.file as Express.Multer.File;
+  const { key: logo } = request.file as Express.MulterS3.File;
 
   const pharmacyResponse = await new Promise((resolve, reject) => {
     pharmacyClient.createPharmacy({ pharmacy: {
@@ -30,11 +26,7 @@ export async function createPharmacy(request: Request, response: Response) {
       telefone,
       outros,
     }}, (error: any, data: any) => {
-      if (error) {
-        promisify(fileSystem.unlink)(path.resolve(
-          __dirname, '..', '..', `uploads/${logo}`,
-        ));
-    
+      if (error) {    
         return response.status(400).json({ error: error.details });
       } else {
         resolve(data);
@@ -89,7 +81,7 @@ export async function updatePharmacyData(request: Request, response: Response) {
     outros,
   } = request.body;
 
-  const { filename: logo } = request.file as Express.Multer.File;
+  const { key: logo } = request.file as Express.MulterS3.File;
 
   const pharmacyResponse = await new Promise((resolve, reject) => {
     pharmacyClient.updatePharmacyData({pharmacy: {
@@ -103,10 +95,6 @@ export async function updatePharmacyData(request: Request, response: Response) {
       outros,
     }}, (error: any, data: any) => {
       if (error) {
-        promisify(fileSystem.unlink)(path.resolve(
-          __dirname, '..', '..', `uploads/${logo}`,
-        ));
-    
         return response.status(400).json({ error: error.details });
       } else {
         resolve(data);
@@ -126,8 +114,9 @@ export async function deletePharmacy(request: Request, response: Response) {
         return response.status(400).json({ error: error.details });
       } else {
         resolve(data);
-        return response.status(200).send();
       }
     });
   });
+
+  return response.status(204).send();
 };
