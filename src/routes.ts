@@ -3,6 +3,8 @@ import multer from "multer";
 
 import { multerConfig } from './config/multer';
 
+import { pharmacyMulterConfig } from './config/pharmacyMulter';
+
 import productMulterConfig from './config/productMulter';
 
 import { 
@@ -34,15 +36,17 @@ const routes = Router();
 
 const upload = multer(multerConfig);
 
+const pharmacyUpload = multer(pharmacyMulterConfig);
+
 const productUpload = multer(productMulterConfig);
 
-routes.post('/createPharmacy', upload.single('logo'), createPharmacy);
+routes.post('/createPharmacy', pharmacyUpload.single('logo'), createPharmacy);
 
 routes.get('/getPharmacyByName', getPharmacyByName);
 
 routes.get('/getAllPharmacys', getAllPharmacys);
 
-routes.put('/updatePharmacyData/:id', upload.single('logo'), updatePharmacyData);
+routes.put('/updatePharmacyData/:id', pharmacyUpload.single('logo'), updatePharmacyData);
 
 routes.delete('/deletePharmacy/:id', deletePharmacy);
 
