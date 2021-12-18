@@ -13,12 +13,12 @@ const packageDefinition = loadSync(pharmacyPath, config);
 const { pharmacy } = loadPackageDefinition(packageDefinition) as any;
 
 const pharmacyClient = new pharmacy.PharmacyService(
-  'localhost:50051',
+  String(process.env.GRPC_PHARMACY_SERVER_URL),
   credentials.createInsecure()
 );
 
 const subsidiaryClient = new pharmacy.SubsidiaryService(
-  'localhost:50051',
+  String(process.env.GRPC_PHARMACY_SERVER_URL),
   credentials.createInsecure()
 );
 
