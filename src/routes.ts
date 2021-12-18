@@ -5,7 +5,7 @@ import { subsidiaryMulterConfig } from './config/subsidiaryMulter';
 
 import { pharmacyMulterConfig } from './config/pharmacyMulter';
 
-import productMulterConfig from './config/productMulter';
+import { productMulterConfig } from './config/productMulter';
 
 import { 
   createPharmacy, 
