@@ -19,8 +19,14 @@ const storageTypes = {
     },
   }),
   s3: multerS3({
-    s3: new aws.S3(),
-    bucket: String(process.env.AWS_BUCKET_NAME),
+    s3: new aws.S3({
+      credentials: {
+        accessKeyId: String(process.env.AWS_PRODUCTS_ACCESS_KEY_ID),
+        secretAccessKey: String(process.env.AWS_PRODUCTS_SECRET_ACCESS_KEY)
+      },
+      region: process.env.AWS_PRODUCTS_DEFAULT_REGION
+    }),
+    bucket: String(process.env.AWS_PRODUCTS_BUCKET_NAME),
     contentType: multerS3.AUTO_CONTENT_TYPE,
     acl: 'public-read',
     key: (request, file: Express.MulterS3.File, callback) => {
@@ -33,7 +39,7 @@ const storageTypes = {
   }),
 };
 
-export default {
+export const productMulterConfig = {
   destination: path.resolve(__dirname, '..', '..', 'uploads', 'product'),
   storage: process.env.STORAGE_TYPE === 'local' ? storageTypes.local : storageTypes.s3,
   limits: {
