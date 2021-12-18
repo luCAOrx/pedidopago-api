@@ -2,10 +2,6 @@ import { Request, Response } from "express";
 
 import { subsidiaryClient } from "../services/PharmacyService";
 
-import { promisify } from 'util';
-import fileSystem from 'fs';
-import path from 'path';
-
 export async function createSubsidiary(request: Request, response: Response) {
   const { farmacia_id } = request.params;
 
@@ -19,7 +15,7 @@ export async function createSubsidiary(request: Request, response: Response) {
     outros,
   } = request.body;
 
-  const { filename: logo } = request.file as Express.Multer.File;
+  const { key: logo } = request.file as Express.MulterS3.File;
 
   const SubsidiaryResponse = await new Promise((resolve, reject) => {
     subsidiaryClient.createSubsidiary({subsidiary: {
@@ -34,10 +30,6 @@ export async function createSubsidiary(request: Request, response: Response) {
       farmacia_id
     }}, (error: any, data: any) => {
       if (error) {
-        promisify(fileSystem.unlink)(path.resolve(
-          __dirname, '..', '..', `uploads/${logo}`,
-        ));
-    
         return response.status(400).json({ error: error.details });
       } else {
         resolve(data);
@@ -92,7 +84,7 @@ export async function updateSubsidiaryData(request: Request, response: Response)
     outros,
   } = request.body;
 
-  const { filename: logo } = request.file as Express.Multer.File;
+  const { key: logo } = request.file as Express.MulterS3.File;
 
   const subsidiaryResponse = await new Promise((resolve, reject) => {
     subsidiaryClient.updateSubsidiaryData({subsidiary: {
@@ -105,11 +97,7 @@ export async function updateSubsidiaryData(request: Request, response: Response)
       telefone,
       outros,
     }}, (error: any, data: any) => {
-      if (error) {
-        promisify(fileSystem.unlink)(path.resolve(
-          __dirname, '..', '..', `uploads/${logo}`,
-        ));
-    
+      if (error) {  
         return response.status(400).json({ error: error.details });
       } else {
         resolve(data);
@@ -129,8 +117,9 @@ export async function deleteSubsidiary(request: Request, response: Response) {
         return response.status(400).json({ error: error.details });
       } else {
         resolve(data);
-        return response.status(200).send();
       }
     });
   });
+
+  return response.status(204).send();
 };
