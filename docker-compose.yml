@@ -18,5 +18,5 @@ services:
 
 networks:
   pedidopago:
-    name: pedidopago_products_microservice
+    name: pedidopago
     driver: bridge
