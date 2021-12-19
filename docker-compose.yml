@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   api:
-    image: node:alpine
+    image: node:latest
     container_name: api
     restart: always
     env_file:
@@ -14,11 +14,9 @@ services:
       - .:/usr/app
     command: yarn start
     networks:
-      - product_microservice
-      - api
+      - pedidopago
 
 networks:
-  product_microservice:
-    driver: bridge         
-  api:
+  pedidopago:
+    name: pedidopago_products_microservice
     driver: bridge
